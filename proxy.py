@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+
 from collections import namedtuple
 from typing import Dict
 from json import dumps, loads
