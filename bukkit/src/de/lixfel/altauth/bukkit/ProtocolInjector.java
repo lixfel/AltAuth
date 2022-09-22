@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 
-// ReflectionUtil heavily inspired by TinyProtocol
+// ProtocolInjector heavily inspired by TinyProtocol
 public class ProtocolInjector implements Listener {
 
 	private static final Class<?> craftServer = ReflectionUtil.getClass("org.bukkit.craftbukkit.CraftServer");
