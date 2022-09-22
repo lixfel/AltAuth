@@ -2,7 +2,7 @@
 
 package de.lixfel.altauth.bungee;
 
-import de.lixfel.tinyprotocol.Reflection;
+import de.lixfel.ReflectionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 import net.md_5.bungee.BungeeCord;
@@ -36,12 +36,12 @@ import java.util.logging.Level;
 
 public class AltAuthHandler extends MessageToMessageCodec<PacketWrapper, PacketWrapper> {
 
-    private static final Class<?> InitialHandler = Reflection.getClass("net.md_5.bungee.connection.InitialHandler");
-    private static final Reflection.FieldAccessor<ChannelWrapper> CH = Reflection.getField(InitialHandler, ChannelWrapper.class, 0);
-    private static final Reflection.FieldAccessor<LoginResult> LoginProfile = Reflection.getField(InitialHandler, "loginProfile", LoginResult.class);
-    private static final Reflection.FieldAccessor<String> Name = Reflection.getField(InitialHandler, "name", String.class);
-    private static final Reflection.FieldAccessor<UUID> UniqueId = Reflection.getField(InitialHandler, "uniqueId", UUID.class);
-    private static final Reflection.MethodInvoker Finish = Reflection.getMethod(InitialHandler, "finish");
+    private static final Class<?> InitialHandler = ReflectionUtil.getClass("net.md_5.bungee.connection.InitialHandler");
+    private static final ReflectionUtil.FieldWrapper<ChannelWrapper> CH = ReflectionUtil.getField(InitialHandler, ChannelWrapper.class, 0);
+    private static final ReflectionUtil.FieldWrapper<LoginResult> LoginProfile = ReflectionUtil.getField(InitialHandler, LoginResult.class, "loginProfile");
+    private static final ReflectionUtil.FieldWrapper<String> Name = ReflectionUtil.getField(InitialHandler, String.class, "name");
+    private static final ReflectionUtil.FieldWrapper<UUID> UniqueId = ReflectionUtil.getField(InitialHandler, UUID.class, "uniqueId");
+    private static final ReflectionUtil.MethodWrapper Finish = ReflectionUtil.getMethod(InitialHandler, "finish");
 
     private final ProxyServer bungee;
     private final String altAuthUrl;

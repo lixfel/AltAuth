@@ -2,7 +2,7 @@
 
 package de.lixfel.altauth.bukkit;
 
-import de.lixfel.tinyprotocol.Reflection;
+import de.lixfel.ReflectionUtil;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,10 +10,10 @@ import java.util.logging.Level;
 
 public class SessionServiceInjector {
 
-    private static final Class<?> SESSION_SERVICE = Reflection.getClass("com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService");
+    private static final Class<?> SESSION_SERVICE = ReflectionUtil.getClass("com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService");
 
-    private static final Reflection.FieldAccessor<URL> JOIN_URL = Reflection.getField(SESSION_SERVICE, "JOIN_URL", URL.class);
-    private static final Reflection.FieldAccessor<URL> CHECK_URL = Reflection.getField(SESSION_SERVICE, "CHECK_URL", URL.class);
+    private static final ReflectionUtil.FieldWrapper<URL> JOIN_URL = ReflectionUtil.getField(SESSION_SERVICE, URL.class, "JOIN_URL");
+    private static final ReflectionUtil.FieldWrapper<URL> CHECK_URL = ReflectionUtil.getField(SESSION_SERVICE, URL.class, "CHECK_URL");
 
     private final URL joinUrlBackup;
     private final URL checkUrlBackup;

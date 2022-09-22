@@ -2,7 +2,6 @@
 
 package de.lixfel.altauth.bukkit;
 
-import de.lixfel.tinyprotocol.TinyProtocol;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +26,7 @@ public class AltAuthBukkit extends JavaPlugin {
 		saveDefaultConfig();
 		String altAuthServer = getConfig().getString("altauth-proxy");
 
-		TinyProtocol.init();
+		ProtocolInjector.init();
 		serviceInjector = new SessionServiceInjector(altAuthServer);
 		requestInjector = new EncryptionRequestInjector(altAuthServer);
 	}
@@ -36,6 +35,6 @@ public class AltAuthBukkit extends JavaPlugin {
 	public void onDisable() {
 		requestInjector.remove();
 		serviceInjector.revert();
-		TinyProtocol.instance.close();
+		ProtocolInjector.instance.close();
 	}
 }

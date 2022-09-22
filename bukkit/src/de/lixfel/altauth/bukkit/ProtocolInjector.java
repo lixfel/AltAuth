@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-package de.lixfel.tinyprotocol;
+package de.lixfel.altauth.bukkit;
 
-import de.lixfel.tinyprotocol.Reflection.FieldAccessor;
-import de.lixfel.altauth.bukkit.AltAuthBukkit;
+import de.lixfel.ReflectionUtil;
+import de.lixfel.ReflectionUtil.FieldWrapper;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,21 +22,21 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 
-public class TinyProtocol implements Listener {
+// ReflectionUtil heavily inspired by TinyProtocol
+public class ProtocolInjector implements Listener {
 
-	private static final Class<?> craftServer = Reflection.getClass("{obc}.CraftServer");
-	private static final Class<?> dedicatedPlayerList = Reflection.getClass("{nms.server.dedicated}.DedicatedPlayerList");
-	private static final FieldAccessor<?> getPlayerList = Reflection.getField(craftServer, dedicatedPlayerList, 0);
-	private static final Class<?> playerList = Reflection.getClass("{nms.server.players}.PlayerList");
-	private static final Class<?> minecraftServer = Reflection.getClass("{nms.server}.MinecraftServer");
-	private static final FieldAccessor<?> getMinecraftServer = Reflection.getField(playerList, minecraftServer, 0);
-	private static final Class<?> serverConnection = Reflection.getClass("{nms.server.network}.ServerConnection");
-	private static final FieldAccessor<?> getServerConnection = Reflection.getField(minecraftServer, serverConnection, 0);
-	private static final Class<?> networkManager = Reflection.getClass("{nms.network}.NetworkManager");
-	private static final FieldAccessor<List> getConnections = Reflection.getField(serverConnection, List.class, 0, networkManager);
+	private static final Class<?> craftServer = ReflectionUtil.getClass("org.bukkit.craftbukkit.CraftServer");
+	private static final Class<?> dedicatedPlayerList = ReflectionUtil.getClass("net.minecraft.server.dedicated.DedicatedPlayerList");
+	private static final FieldWrapper<?> getPlayerList = ReflectionUtil.getField(craftServer, dedicatedPlayerList, 0);
+	private static final Class<?> playerList = ReflectionUtil.getClass("net.minecraft.server.players.PlayerList");
+	private static final Class<?> minecraftServer = ReflectionUtil.getClass("net.minecraft.server.MinecraftServer");
+	private static final FieldWrapper<?> getMinecraftServer = ReflectionUtil.getField(playerList, minecraftServer, 0);
+	private static final Class<?> serverConnection = ReflectionUtil.getClass("net.minecraft.server.network.ServerConnection");
+	private static final FieldWrapper<?> getServerConnection = ReflectionUtil.getField(minecraftServer, serverConnection, 0);
+	private static final Class<?> networkManager = ReflectionUtil.getClass("net.minecraft.network.NetworkManager");
+	private static final FieldWrapper<List> getConnections = ReflectionUtil.getField(serverConnection, List.class, 0, networkManager);
 
-	public static final TinyProtocol instance = new TinyProtocol(AltAuthBukkit.getInstance());
-	private static int id = 0;
+	public static final ProtocolInjector instance = new ProtocolInjector(AltAuthBukkit.getInstance());
 
 	public static void init() {
 		//enforce init
@@ -50,9 +50,9 @@ public class TinyProtocol implements Listener {
 	private final Map<Class<?>, List<BiFunction<Player, Object, Object>>> packetFilters = new HashMap<>();
 	private final Map<Player, PacketInterceptor> playerInterceptors = new HashMap<>();
 
-	private TinyProtocol(final Plugin plugin) {
+	private ProtocolInjector(final Plugin plugin) {
 		this.plugin = plugin;
-		this.handlerName = "tiny-" + plugin.getName() + "-" + ++id;
+		this.handlerName = "altauth";
 		this.connections = getConnections.get(getServerConnection.get(getMinecraftServer.get(getPlayerList.get(plugin.getServer()))));
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -89,14 +89,6 @@ public class TinyProtocol implements Listener {
 		packetFilters.getOrDefault(packetType, Collections.emptyList()).remove(filter);
 	}
 
-	public void sendPacket(Player player, Object packet) {
-		getInterceptor(player).ifPresent(i -> i.sendPacket(packet));
-	}
-
-	public void receivePacket(Player player, Object packet) {
-		getInterceptor(player).ifPresent(i -> i.receivePacket(packet));
-	}
-
 	public final void close() {
 		if(closed)
 			return;
@@ -115,8 +107,8 @@ public class TinyProtocol implements Listener {
 		}
 	}
 
-	private static final FieldAccessor<Channel> getChannel = Reflection.getField(networkManager, Channel.class, 0);
-	private static final FieldAccessor<UUID> getUUID = Reflection.getField(networkManager, UUID.class, 0);
+	private static final FieldWrapper<Channel> getChannel = ReflectionUtil.getField(networkManager, Channel.class, 0);
+	private static final FieldWrapper<UUID> getUUID = ReflectionUtil.getField(networkManager, UUID.class, 0);
 
 	public final class PacketInterceptor extends ChannelDuplexHandler {
 		private final Player player;
