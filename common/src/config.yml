@@ -1,0 +1,4 @@
+# This is the domain/ip (+ port if necessary) of the AltAuth-Proxy providing the
+# https://{altauth-proxy}/session/minecraft/join and
+# https://{altauth-proxy}/session/minecraft/hasJoined endpoints.
+altauth-proxy: "127.0.0.1:8080"

@@ -1,0 +1,4 @@
+name: AltAuth
+main: de.lixfel.altauth.bungee.AltAuthBungee
+version: "1.0"
+author: Lixfel

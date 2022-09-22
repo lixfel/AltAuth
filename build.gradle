@@ -1,0 +1,65 @@
+/*
+ *    This file is part of AltAuth.
+ *
+ *    Copyright (C) 2022  Lixfel
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+plugins {
+    // Adding the base plugin fixes the following gradle warnings in IntelliJ:
+    //
+    // Warning: root project 'module-work-multi': Unable to resolve all content root directories
+    // Details: java.lang.IllegalStateException: No value has been specified for this provider.
+    //
+    // Warning: root project 'module-work-multi': Unable to resolve additional project configuration.
+    // Details: java.lang.IllegalStateException: No value has been specified for this provider.
+    id 'base'
+    id 'application'
+
+    id 'com.github.johnrengelman.shadow' version '5.0.0'
+}
+
+group 'de.lixfel'
+version ''
+
+ext {
+    buildName = 'AltAuth'
+
+    uberJarName = "${buildName}.jar"
+    jarName = "${buildName}-pseudo.jar"
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = ''
+
+allprojects {
+    repositories {
+        mavenCentral()
+
+        maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+
+        maven { url = uri('https://steamwar.de/maven') }
+    }
+}
+
+dependencies {
+    implementation project(":bukkit")
+    implementation project(":bungee")
+    implementation project(":common")
+}

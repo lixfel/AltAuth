@@ -1,0 +1,9 @@
+name: AltAuth
+version: "1.0"
+author: Lixfel
+api-version: "1.13"
+load: STARTUP
+softdepend:
+  - ViaVersion
+
+main: de.lixfel.altauth.bukkit.AltAuthBukkit
