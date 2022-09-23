@@ -31,6 +31,10 @@ dependencies {
     }
     modCompileOnlyApi "com.terraformersmc:modmenu:4.0.6"
     compileOnly project(":common")
+
+    // Used to Override 'private final'
+    implementation 'org.jooq:joor:0.9.14'
+    include 'org.jooq:joor:0.9.14'
 }
 
 processResources {
