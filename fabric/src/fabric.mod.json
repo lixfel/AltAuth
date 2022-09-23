@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "alt-auth-client",
+  "version": "${version}",
+  "name": "AltAuth",
+  "description": "Use AltAuth",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "de.chaoscaot.altauth.AltAuth"
+    ],
+    "client": [
+      "de.chaoscaot.altauth.AltAuthClient"
+    ],
+    "server": [
+      "de.chaoscaot.altauth.AltAuthServer"
+    ]
+  },
+  "mixins": [
+    "alt-auth.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "minecraft": ">=1.18.2"
+  }
+}

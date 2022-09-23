@@ -1,7 +1,18 @@
 // SPDX-License-Identifier: MIT
 
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'AltAuth'
 
 include 'bukkit'
 include 'bungee'
 include 'common'
+include 'fabric'
