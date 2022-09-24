@@ -10,13 +10,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "de.chaoscaot.altauth.AltAuth"
+      "de.chaoscaot.altauth.fabric.AltAuth"
     ],
     "client": [
-      "de.chaoscaot.altauth.AltAuthClient"
+      "de.chaoscaot.altauth.fabric.AltAuthClient"
     ],
     "server": [
-      "de.chaoscaot.altauth.AltAuthServer"
+      "de.chaoscaot.altauth.fabric.AltAuthServer"
     ]
   },
   "mixins": [

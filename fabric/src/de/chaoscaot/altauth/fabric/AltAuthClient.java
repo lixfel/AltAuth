@@ -1,4 +1,6 @@
-package de.chaoscaot.altauth;
+// SPDX-License-Identifier: MIT
+
+package de.chaoscaot.altauth.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
 

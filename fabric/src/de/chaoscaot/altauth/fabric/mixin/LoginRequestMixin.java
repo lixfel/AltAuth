@@ -1,4 +1,6 @@
-package de.chaoscaot.altauth.mixin.client;
+// SPDX-License-Identifier: MIT
+
+package de.chaoscaot.altauth.fabric.mixin;
 
 import com.mojang.authlib.yggdrasil.YggdrasilEnvironment;
 import net.fabricmc.api.EnvType;

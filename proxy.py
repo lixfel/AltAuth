@@ -177,7 +177,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
         except BaseException as e:
             print(e)
 
-            self.send_response(HTTPStatus.INTERNAL_SERVER_ERROR)
+            self.send_response(HTTPStatus.FORBIDDEN)
             self.end_headers()
 
 

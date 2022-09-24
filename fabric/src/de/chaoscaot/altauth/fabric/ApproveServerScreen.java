@@ -1,4 +1,6 @@
-package de.chaoscaot.altauth.gui;
+// SPDX-License-Identifier: MIT
+
+package de.chaoscaot.altauth.fabric;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

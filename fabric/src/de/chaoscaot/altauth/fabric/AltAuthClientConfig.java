@@ -1,6 +1,7 @@
-package de.chaoscaot.altauth.config.client;
+// SPDX-License-Identifier: MIT
 
-import de.chaoscaot.altauth.AltAuth;
+package de.chaoscaot.altauth.fabric;
+
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
@@ -20,10 +21,10 @@ public class AltAuthClientConfig {
             INSTANCE = new AltAuthClientConfig();
         } else {
             try {
-                INSTANCE = AltAuth.GSON.fromJson(Files.readString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME)), AltAuthClientConfig.class);
+                INSTANCE = AltAuthFabric.GSON.fromJson(Files.readString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME)), AltAuthClientConfig.class);
             } catch (IOException e) {
-                AltAuth.LOGGER.error("AltauthClient: AltAuthClientConfig: Error while loading config", e);
-                AltAuth.LOGGER.info("Reset Config...");
+                AltAuthFabric.LOGGER.error("AltauthClient: AltAuthClientConfig: Error while loading config", e);
+                AltAuthFabric.LOGGER.info("Reset Config...");
                 INSTANCE = new AltAuthClientConfig();
                 INSTANCE.save();
             }
@@ -35,9 +36,9 @@ public class AltAuthClientConfig {
 
     public void save() {
         try {
-            Files.writeString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME), AltAuth.GSON.toJson(this));
+            Files.writeString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME), AltAuthFabric.GSON.toJson(this));
         } catch (IOException e) {
-            AltAuth.LOGGER.error("AltauthClient: AltAuthClientConfig: Error while saving config", e);
+            AltAuthFabric.LOGGER.error("AltauthClient: AltAuthClientConfig: Error while saving config", e);
         }
     }
 }

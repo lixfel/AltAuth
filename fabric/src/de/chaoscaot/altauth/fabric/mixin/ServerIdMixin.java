@@ -1,6 +1,8 @@
-package de.chaoscaot.altauth.mixin.server;
+// SPDX-License-Identifier: MIT
 
-import de.chaoscaot.altauth.config.server.AltAuthServerConfig;
+package de.chaoscaot.altauth.fabric.mixin;
+
+import de.chaoscaot.altauth.fabric.AltAuthServerConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.network.PacketByteBuf;
