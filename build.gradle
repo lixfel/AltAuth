@@ -12,10 +12,11 @@ plugins {
     id 'application'
 
     id 'com.github.johnrengelman.shadow' version '5.0.0'
+    id 'fabric-loom' version '1.0-SNAPSHOT' apply false
 }
 
 group 'de.lixfel'
-version ''
+version project.version
 
 ext {
     buildName = 'AltAuth'
@@ -25,9 +26,6 @@ ext {
 }
 
 compileJava.options.encoding = 'UTF-8'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 mainClassName = ''
 
@@ -39,11 +37,27 @@ allprojects {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 
         maven { url = uri('https://steamwar.de/maven') }
+
+        maven { url 'https://maven.fabricmc.net/' }
+        maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.terraformersmc.com/releases/" }
+    }
+
+    configurations {
+        compileClasspath
+    }
+}
+
+subprojects {
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+        options.release = 8
     }
 }
 
 dependencies {
     implementation project(":bukkit")
     implementation project(":bungee")
+    implementation project(":fabric")
     implementation project(":common")
 }
