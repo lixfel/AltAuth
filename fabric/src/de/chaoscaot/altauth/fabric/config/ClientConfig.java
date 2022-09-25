@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-package de.chaoscaot.altauth.fabric;
+package de.chaoscaot.altauth.fabric.config;
 
 import com.google.gson.JsonSyntaxException;
+import de.chaoscaot.altauth.fabric.AltAuth;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
@@ -11,6 +14,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class ClientConfig {
 
     private static final String CONFIG_FILE_NAME = "altauth.client.json";

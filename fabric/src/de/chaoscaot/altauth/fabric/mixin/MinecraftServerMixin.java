@@ -1,7 +1,7 @@
 package de.chaoscaot.altauth.fabric.mixin;
 
 import de.chaoscaot.altauth.fabric.AltAuth;
-import de.chaoscaot.altauth.fabric.ServerConfig;
+import de.chaoscaot.altauth.fabric.config.ServerConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

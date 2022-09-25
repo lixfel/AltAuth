@@ -16,6 +16,4 @@ public class AltAuth {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static ServerAddress address;
-
-    public static boolean trustOnce = false;
 }

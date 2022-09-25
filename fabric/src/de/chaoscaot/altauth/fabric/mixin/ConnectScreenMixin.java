@@ -1,7 +1,6 @@
 package de.chaoscaot.altauth.fabric.mixin;
 
 import de.chaoscaot.altauth.fabric.AltAuth;
-import de.chaoscaot.altauth.fabric.TrustServerScreen;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.network.ServerAddress;
 import org.spongepowered.asm.mixin.Mixin;

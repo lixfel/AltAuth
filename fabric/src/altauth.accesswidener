@@ -3,3 +3,4 @@ mutable field net/minecraft/server/MinecraftServer apiServices Lnet/minecraft/ut
 accessible field net/minecraft/client/gui/screen/ConnectScreen connection Lnet/minecraft/network/ClientConnection;
 accessible field net/minecraft/client/gui/screen/ConnectScreen connectingCancelled Z
 accessible field net/minecraft/client/gui/screen/ConnectScreen parent Lnet/minecraft/client/gui/screen/Screen;
+accessible field net/minecraft/client/gui/screen/ConnectScreen status Lnet/minecraft/text/Text;

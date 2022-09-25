@@ -1,0 +1,10 @@
+{
+  "gui.altauth.confirm.title": "%s §rmöchte '%s' als AltAuth server nutzen",
+  "gui.altauth.confirm.text": "Willst du\n'%s'\nals Authentication Server vertrauen?\n\n§4§lACHTUNG: §rDieser Server ist nicht von Mojang und kann unsicher sein!\nJemand bösartiges kann mit den gesendeten Information sich in deinen Minecraft Account einloggen und ihn auf §4§lJEDEM§r Server benutzen!\n\nWenn du dir nicht sicher bist, klicke auf 'Abbrechen'.",
+  "gui.altauth.connecting": "Verbinden mit AltAuth '%s'...",
+  "gui.altauth.error": "AltAuth Fehler!",
+  "config.altauth.title": "AltAuth Client Config",
+  "config.altauth.general": "Allgemein",
+  "config.altauth.enabled": "AltAuth Benutzen",
+  "config.altauth.servers": "Vertraute AltAuth Server"
+}

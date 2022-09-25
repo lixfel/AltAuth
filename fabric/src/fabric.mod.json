@@ -1,11 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "alt-auth-client",
+  "id": "altauth",
   "version": "${version}",
   "name": "AltAuth",
-  "description": "Use AltAuth",
-  "authors": [],
-  "contact": {},
+  "description": "AltAuth in your Game",
+  "authors": ["Chaoscaot <chaoscaot@zohomail.eu>", "Lixfel"],
+  "contact": {
+    "email": "chaoscaot@zohomail.eu",
+    "sources": "https://steamwar.de/devlabs/Lixfel/AltAuth",
+    "homepage": "https://steamwar.de/devlabs/Lixfel/AltAuth",
+    "issues": "https://steamwar.de/devlabs/Lixfel/AltAuth/issues"
+  },
   "license": "MIT",
   "environment": "*",
   "mixins": [
@@ -15,5 +20,14 @@
     "fabricloader": ">=0.13.3",
     "minecraft": ">=1.18.2"
   },
-  "accessWidener": "altauth.accesswidener"
+  "recommends": {
+    "modmenu": "*",
+    "cloth-config": "*"
+  },
+  "accessWidener": "altauth.accesswidener",
+  "entrypoints": {
+    "modmenu": [
+      "de.chaoscaot.altauth.fabric.config.ModMenuIntegration"
+    ]
+  }
 }
