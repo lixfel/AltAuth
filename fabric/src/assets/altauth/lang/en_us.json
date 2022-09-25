@@ -1,10 +1,13 @@
 {
   "gui.altauth.confirm.title": "%s wants to use '%s' as AltAuth Server",
-  "gui.altauth.confirm.text": "Do you want to trust\n'%s'\nas an Authentication server?\n\n§4§lWARNING: §rThe Authentication server is not provided by Mojang and can be unsafe!\nA Malicious actor can use the info send to this Server to login and use your Minecraft Account on §4§lANY§r server!\n\nMake sure that you trust this Server!",
+  "gui.altauth.confirm.text": "Do you want to trust\n'%s'\nas an Authentication server?\n\n§4§lWARNING: §rA Malicious actor can use the info send to this server to impersonate you on §4§lANY§r server for up to two days!\n\nMake sure that you trust this Server!",
+  "gui.altauth.confirm.force_mojang": "Use Mojang Authentication",
+  "gui.altauth.confirm.once": "Trust Once",
   "gui.altauth.connecting": "Connecting with AltAuth '%s'...",
   "gui.altauth.error": "AltAuth error",
   "config.altauth.title": "AltAuth Client Config",
   "config.altauth.general": "General",
   "config.altauth.enabled": "AltAuth Enabled",
-  "config.altauth.servers": "Trusted AltAuth Servers"
+  "config.altauth.servers": "Trusted AltAuth Servers",
+  "config.altauth.disabled": "Forced Mojang Authentication"
 }

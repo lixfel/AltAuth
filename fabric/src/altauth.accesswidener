@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 accessWidener v1 named
 mutable field net/minecraft/server/MinecraftServer apiServices Lnet/minecraft/util/ApiServices;
 accessible field net/minecraft/client/gui/screen/ConnectScreen connection Lnet/minecraft/network/ClientConnection;

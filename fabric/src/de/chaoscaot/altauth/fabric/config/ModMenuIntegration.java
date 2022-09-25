@@ -9,7 +9,6 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -36,6 +35,11 @@ public class ModMenuIntegration implements ModMenuApi {
                     .setDefaultValue(new ArrayList<>())
                     .setSaveConsumer(list -> ClientConfig.INSTANCE.allowedServers = list)
                     .build());
+            general.addEntry(entryBuilder.startStrList(Text.translatable("config.altauth.disabled"), ClientConfig.INSTANCE.forcedMojang)
+                    .setDefaultValue(new ArrayList<>())
+                    .setSaveConsumer(list -> ClientConfig.INSTANCE.forcedMojang = list)
+                    .build());
+
             return builder.build();
         };
     }

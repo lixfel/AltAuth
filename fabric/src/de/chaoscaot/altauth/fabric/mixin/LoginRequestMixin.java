@@ -4,6 +4,7 @@ package de.chaoscaot.altauth.fabric.mixin;
 
 import com.mojang.authlib.yggdrasil.YggdrasilEnvironment;
 import de.chaoscaot.altauth.fabric.AltAuth;
+import de.chaoscaot.altauth.fabric.TrustServerScreen;
 import de.chaoscaot.altauth.fabric.config.ClientConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -37,9 +38,10 @@ public class LoginRequestMixin {
     public void onHello(LoginHelloS2CPacket packet, CallbackInfo ci) {
         String server = packet.getServerId();
         try {
-            if(packet.getServerId().contains(".")) {
+            if(server.contains(".") && !ClientConfig.INSTANCE.forcedMojang.contains(AltAuth.address.getAddress()) && ClientConfig.INSTANCE.enabled) {
                 LOGGER.info("AltauthClient: LoginRequestMixin: Server is running on a custom: {}", server);
-                if(ClientConfig.INSTANCE.allowedServers.contains(server)) {
+                if(ClientConfig.INSTANCE.allowedServers.contains(server) || AltAuth.trustOnce) {
+                    AltAuth.trustOnce = false;
                     if(MinecraftClient.getInstance().currentScreen instanceof ConnectScreen cs) {
                         cs.status = Text.translatable("gui.altauth.connecting", server);
                     }
@@ -53,16 +55,7 @@ public class LoginRequestMixin {
                             cs.connection.disconnect(Text.translatable("connect.aborted"));
                         }
 
-                        MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().setScreen(new ConfirmScreen(t -> {
-                            if(t) {
-                                ClientConfig.INSTANCE.allowedServers.add(server);
-                                ClientConfig.INSTANCE.save();
-
-                                ConnectScreen.connect(cs.parent, client, AltAuth.address, null);
-                            } else {
-                                client.setScreen(cs.parent);
-                            }
-                        }, Text.translatable("gui.altauth.confirm.title", AltAuth.address.getAddress(), server), Text.translatable("gui.altauth.confirm.text", server), ScreenTexts.YES, ScreenTexts.CANCEL)));
+                        MinecraftClient.getInstance().execute(() -> client.setScreen(new TrustServerScreen(server, cs.parent)));
                     }
                 }
             } else {

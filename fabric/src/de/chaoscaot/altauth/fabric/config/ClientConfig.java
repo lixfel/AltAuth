@@ -38,6 +38,7 @@ public class ClientConfig {
 
     public boolean enabled = true;
     public List<String> allowedServers = new ArrayList<>();
+    public List<String> forcedMojang = new ArrayList<>();
 
     public void save() {
         try {

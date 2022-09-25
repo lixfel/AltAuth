@@ -26,11 +26,11 @@ public class ServerConfig {
             try {
                 INSTANCE = AltAuth.GSON.fromJson(Files.readString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME)), ServerConfig.class);
                 if(INSTANCE.serverUrl.length() > 20) {
-                    AltAuth.LOGGER.error("AltauthServer: AltAuthServerConfig: ServerUrl is too long. Max length is 20 characters");
+                    AltAuth.LOGGER.error("AltauthServer: ServerUrl is too long. Max length is 20 characters");
                     INSTANCE.serverUrl = "";
                 }
             } catch (IOException e) {
-                AltAuth.LOGGER.error("AltauthServer: AltAuthServerConfig: Error while loading config", e);
+                AltAuth.LOGGER.error("AltauthServer: Error while loading config", e);
                 AltAuth.LOGGER.info("Reset Config...");
                 INSTANCE = new ServerConfig();
                 INSTANCE.save();
@@ -47,7 +47,7 @@ public class ServerConfig {
         try {
             Files.writeString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME), AltAuth.GSON.toJson(this));
         } catch (IOException e) {
-            AltAuth.LOGGER.error("AltauthServer: AltAuthServerConfig: Error while saving config", e);
+            AltAuth.LOGGER.error("AltauthServer: Error while saving config", e);
         }
     }
 }

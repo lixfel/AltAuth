@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package de.chaoscaot.altauth.fabric.mixin;
 
 import de.chaoscaot.altauth.fabric.AltAuth;
