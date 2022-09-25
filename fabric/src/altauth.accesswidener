@@ -1,0 +1,5 @@
+accessWidener v1 named
+mutable field net/minecraft/server/MinecraftServer apiServices Lnet/minecraft/util/ApiServices;
+accessible field net/minecraft/client/gui/screen/ConnectScreen connection Lnet/minecraft/network/ClientConnection;
+accessible field net/minecraft/client/gui/screen/ConnectScreen connectingCancelled Z
+accessible field net/minecraft/client/gui/screen/ConnectScreen parent Lnet/minecraft/client/gui/screen/Screen;

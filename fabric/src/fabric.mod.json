@@ -8,22 +8,12 @@
   "contact": {},
   "license": "MIT",
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "de.chaoscaot.altauth.fabric.AltAuth"
-    ],
-    "client": [
-      "de.chaoscaot.altauth.fabric.AltAuthClient"
-    ],
-    "server": [
-      "de.chaoscaot.altauth.fabric.AltAuthServer"
-    ]
-  },
   "mixins": [
     "alt-auth.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.13.3",
     "minecraft": ">=1.18.2"
-  }
+  },
+  "accessWidener": "altauth.accesswidener"
 }

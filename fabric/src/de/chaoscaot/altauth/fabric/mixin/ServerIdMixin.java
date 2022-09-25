@@ -2,7 +2,7 @@
 
 package de.chaoscaot.altauth.fabric.mixin;
 
-import de.chaoscaot.altauth.fabric.AltAuthServerConfig;
+import de.chaoscaot.altauth.fabric.ServerConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.network.PacketByteBuf;
@@ -17,6 +17,6 @@ public class ServerIdMixin {
 
     @Redirect(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/PacketByteBuf;writeString(Ljava/lang/String;)Lnet/minecraft/network/PacketByteBuf;"))
     public PacketByteBuf writeString(PacketByteBuf packetByteBuf, String string) {
-        return packetByteBuf.writeString(AltAuthServerConfig.INSTANCE.serverUrl);
+        return packetByteBuf.writeString(ServerConfig.INSTANCE.serverUrl);
     }
 }

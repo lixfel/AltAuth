@@ -33,7 +33,7 @@ dependencies {
     compileOnly project(":common")
 
     // Used to Override 'private final'
-    implementation 'org.jooq:joor:0.9.14'
+    compileOnly 'org.jooq:joor:0.9.14'
     include 'org.jooq:joor:0.9.14'
 }
 
@@ -44,4 +44,8 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+}
+
+loom {
+    accessWidenerPath = file("src/altauth.accesswidener")
 }
