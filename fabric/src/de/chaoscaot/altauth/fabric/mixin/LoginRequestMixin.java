@@ -34,9 +34,9 @@ public class LoginRequestMixin {
 
     @Inject(at = @At("HEAD"), method = "onHello", cancellable = true)
     public void onHello(LoginHelloS2CPacket packet, CallbackInfo ci) {
-        String server = "chaoscaot.de";//packet.getServerId();
+        String server = packet.getServerId();
         try {
-            //if(packet.getServerId().contains(".")) {
+            if(packet.getServerId().contains(".")) {
                 LOGGER.info("AltauthClient: LoginRequestMixin: Server is running on a custom: {}", server);
                 if(ClientConfig.INSTANCE.allowedServers.contains(server)) {
                     if(MinecraftClient.getInstance().currentScreen instanceof ConnectScreen cs) {
@@ -64,11 +64,11 @@ public class LoginRequestMixin {
                         }, Text.translatable("gui.altauth.confirm.title", AltAuth.address.getAddress(), server), Text.translatable("gui.altauth.confirm.text", server), ScreenTexts.YES, ScreenTexts.CANCEL)));
                     }
                 }
-            /*} else {
+            } else {
                 LOGGER.info("AltauthClient: LoginRequestMixin: Server is running on mojang");
                 URL url = new URL(YggdrasilEnvironment.PROD.getEnvironment().getSessionHost() + "/session/minecraft/join");
                 Reflect.on(MinecraftClient.getInstance().getSessionService()).set("joinUrl", url);
-            }*/
+            }
         } catch (Exception e) {
             e.printStackTrace();
             if(MinecraftClient.getInstance().currentScreen instanceof ConnectScreen cs) {
