@@ -2,6 +2,7 @@
 
 package de.chaoscaot.altauth.fabric.mixin;
 
+import com.mojang.authlib.yggdrasil.YggdrasilEnvironment;
 import de.chaoscaot.altauth.fabric.AltAuth;
 import de.chaoscaot.altauth.fabric.config.ClientConfig;
 import net.fabricmc.api.EnvType;
