@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 
+from traceback import format_exc
 from collections import namedtuple
 from typing import Dict
 from json import dumps, loads
@@ -14,7 +15,9 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 
 # Set this to True if behind an ip masking proxy (with X-Forwarded-For support) while using prevent-proxy-connections
-behind_proxy = False
+behind_proxy = True
+# Address and port to listen to
+bind_to = ('127.0.0.1', 8080)
 # Should mojang accounts be allowed to join with this AltAuth proxy
 allow_mojang_accounts = True
 # Should banned microsoft accounts ("UserBannedException") be allowed to join?
@@ -67,7 +70,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
 
             content_length = int(self.headers['Content-Length'])
             if content_length > 1024:
-                raise Exception()
+                raise Exception("Unusual large request (malicious actor?)")
 
             request = loads(self.rfile.read(content_length))
             access_token = request["accessToken"]
@@ -78,12 +81,12 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
             now = time()
             use_altauth = False
 
-            if token["exp"] >= now:  # check token expiration date
-                raise Exception()
+            if token["exp"] <= now:  # check token expiration date
+                raise Exception("Expired token")
 
             if token["iss"] == "Yggdrasil-Auth" and allow_mojang_accounts:  # Mojang account
                 if token["spr"] != selected_profile:
-                    raise Exception()
+                    raise Exception("UUIDs don't match (malicious actor?)")
 
                 # Valid token (even on other ip): 204
                 # Invalid token: 403 {"error": "ForbiddenOperationException", "errorMessage": "Invalid token"}
@@ -91,7 +94,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
                     "accessToken": access_token
                 })
                 if code != 204:
-                    raise Exception()
+                    raise Exception("Token invalid for unknown reasons")
 
                 use_altauth = True
 
@@ -124,7 +127,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
             if code != 204 and data:
                 self.wfile.write(data)
         except BaseException as e:
-            print(e)
+            self.log_message("Exception handling request: %s", format_exc())
 
             # The client continues the login process with a 500 response, therefore 403 instead
             self.send_response(HTTPStatus.FORBIDDEN)
@@ -151,7 +154,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
 
             if altauth_client and "ip" in query:
                 if query.pop("ip") != cached_profile.ip:
-                    raise Exception()
+                    raise Exception("IPs don't match (prevent-proxy-connections)")
 
             if altauth_client and cached_profile.use_altauth:
                 code, data = moj_request(
@@ -161,7 +164,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
                 if data:
                     profile = loads(data)
                     if profile["name"] != username:  # Disarm server_id hash collisions and prevent username spoofing
-                        raise Exception()
+                        raise Exception("Usernames don't match (potential hash collision)")
             elif "ip" in query:
                 code, data = moj_request(
                     f"https://sessionserver.mojang.com/session/minecraft/hasJoined?username={username}&serverId={server_id}&ip={query['ip']}"
@@ -175,7 +178,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(data)
         except BaseException as e:
-            print(e)
+            self.log_message("Exception handling request: %s", format_exc())
 
             self.send_response(HTTPStatus.FORBIDDEN)
             self.end_headers()
@@ -183,4 +186,4 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     Thread(target=timeout_cleaner, name="TimeoutCleanup", daemon=True).start()
-    ThreadingHTTPServer(('127.0.0.1', 8080), AltAuthRequestHandler).serve_forever()
+    ThreadingHTTPServer(bind_to, AltAuthRequestHandler).serve_forever()

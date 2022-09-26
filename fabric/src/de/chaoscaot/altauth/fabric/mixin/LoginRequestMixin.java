@@ -9,12 +9,10 @@ import de.chaoscaot.altauth.fabric.config.ClientConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
 import net.minecraft.network.packet.s2c.login.LoginHelloS2CPacket;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import org.joor.Reflect;
 import org.slf4j.Logger;
@@ -50,10 +48,10 @@ public class LoginRequestMixin {
                 } else {
                     if(MinecraftClient.getInstance().currentScreen instanceof ConnectScreen cs) {
                         ci.cancel();
-                        cs.connectingCancelled = true;
+                        /*cs.connectingCancelled = true;
                         if( cs.connection != null) {
                             cs.connection.disconnect(Text.translatable("connect.aborted"));
-                        }
+                        }*/
 
                         MinecraftClient.getInstance().execute(() -> client.setScreen(new TrustServerScreen(server, cs.parent)));
                     }

@@ -21,10 +21,13 @@ public class AltAuthBungee extends Plugin implements Listener {
 
     @Override
     public void onEnable() {
-        File config = new File(getDataFolder(), "config.yml");
+        File dataFolder = getDataFolder();
+        File config = new File(dataFolder, "config.yml");
         ConfigurationProvider provider = ConfigurationProvider.getProvider(YamlConfiguration.class);
 
         if(!config.exists()) {
+            dataFolder.mkdir();
+
             try (InputStream in = getResourceAsStream("config.yml")) {
                 try (FileOutputStream out = new FileOutputStream(config)) {
                     int read;
@@ -33,7 +36,7 @@ public class AltAuthBungee extends Plugin implements Listener {
                         out.write(buffer, 0, read);
                 }
             } catch (IOException e) {
-                throw new IllegalStateException("Could not create config");
+                throw new IllegalStateException("Could not create config", e);
             }
         }
 

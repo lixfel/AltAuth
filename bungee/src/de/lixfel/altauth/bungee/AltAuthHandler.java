@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class AltAuthHandler extends MessageToMessageCodec<PacketWrapper, PacketWrapper> {
+public class AltAuthHandler extends MessageToMessageCodec<PacketWrapper, DefinedPacket> {
 
     private static final Class<?> InitialHandler = ReflectionUtil.getClass("net.md_5.bungee.connection.InitialHandler");
     private static final ReflectionUtil.FieldWrapper<ChannelWrapper> CH = ReflectionUtil.getField(InitialHandler, ChannelWrapper.class, 0);
@@ -54,17 +54,14 @@ public class AltAuthHandler extends MessageToMessageCodec<PacketWrapper, PacketW
 
         ChannelWrapper ch = CH.get(connection);
         ch.addBefore(PipelineUtils.BOSS_HANDLER, "altauth", this);
-        //ch.addBefore(PipelineUtils.PACKET_ENCODER, "altauth", this);
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, PacketWrapper packetWrapper, List<Object> out) {
-        DefinedPacket packet = packetWrapper.packet;
-
+    protected void encode(ChannelHandlerContext ctx, DefinedPacket packet, List<Object> out) {
         if(packet instanceof EncryptionRequest)
             ((EncryptionRequest)packet).setServerId(altAuthUrl);
 
-        out.add(packetWrapper);
+        out.add(packet);
     }
 
     @SuppressWarnings("deprecation")
@@ -76,6 +73,7 @@ public class AltAuthHandler extends MessageToMessageCodec<PacketWrapper, PacketW
             return;
         }
 
+        packetWrapper.trySingleRelease();
         ChannelWrapper ch = CH.get(connection);
         ch.getHandle().pipeline().remove(this);
 
