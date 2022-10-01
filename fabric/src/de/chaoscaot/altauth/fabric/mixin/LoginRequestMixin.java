@@ -48,10 +48,10 @@ public class LoginRequestMixin {
                 } else {
                     if(MinecraftClient.getInstance().currentScreen instanceof ConnectScreen cs) {
                         ci.cancel();
-                        /*cs.connectingCancelled = true;
+                        cs.connectingCancelled = true;
                         if( cs.connection != null) {
                             cs.connection.disconnect(Text.translatable("connect.aborted"));
-                        }*/
+                        }
 
                         MinecraftClient.getInstance().execute(() -> client.setScreen(new TrustServerScreen(server, cs.parent)));
                     }
