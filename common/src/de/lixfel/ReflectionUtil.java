@@ -12,19 +12,19 @@ public final class ReflectionUtil {
 	private ReflectionUtil() {}
 
 	private static final String ORG_BUKKIT_CRAFTBUKKIT;
-	private static final boolean REPLACE_NET_MINECRAFT;
+	public static final int MINECRAFT_VERSION;
 	static {
 		String craftbukkitPackage;
-		boolean legacyNms;
+		int minecraftVersion;
 		try {
 			craftbukkitPackage = Bukkit.getServer().getClass().getPackage().getName();
-			legacyNms = Integer.parseInt(craftbukkitPackage.split("[.](?=[^.]*$)")[1].split("_")[1]) < 17;
+			minecraftVersion = Integer.parseInt(craftbukkitPackage.split("[.](?=[^.]*$)")[1].split("_")[1]);
 		} catch (NoClassDefFoundError e) {
 			craftbukkitPackage = "";
-			legacyNms = false;
+			minecraftVersion = 0;
 		}
 		ORG_BUKKIT_CRAFTBUKKIT = craftbukkitPackage;
-		REPLACE_NET_MINECRAFT = legacyNms;
+		MINECRAFT_VERSION = minecraftVersion;
 	}
 
 	private static final String LEGACY_NET_MINECRAFT_SERVER = ORG_BUKKIT_CRAFTBUKKIT.replace("org.bukkit.craftbukkit", "net.minecraft.server");
@@ -120,7 +120,7 @@ public final class ReflectionUtil {
 		try {
 			if(name.startsWith("org.bukkit.craftbukkit")) {
 				return Class.forName(ORG_BUKKIT_CRAFTBUKKIT + name.substring(22));
-			} else if(REPLACE_NET_MINECRAFT && name.startsWith("net.minecraft")) {
+			} else if(MINECRAFT_VERSION < 17 && name.startsWith("net.minecraft")) {
 				return Class.forName(LEGACY_NET_MINECRAFT_SERVER + "." + name.split("[.](?=[^.]*$)")[1]);
 			} else {
 				return Class.forName(name);

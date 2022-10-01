@@ -8,6 +8,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,7 +30,7 @@ public class ProtocolInjector implements Listener {
 	private static final Class<?> dedicatedPlayerList = ReflectionUtil.getClass("net.minecraft.server.dedicated.DedicatedPlayerList");
 	private static final FieldWrapper<?> getPlayerList = ReflectionUtil.getField(craftServer, dedicatedPlayerList, 0);
 	private static final Class<?> playerList = ReflectionUtil.getClass("net.minecraft.server.players.PlayerList");
-	private static final Class<?> minecraftServer = ReflectionUtil.getClass("net.minecraft.server.MinecraftServer");
+	public static final Class<?> minecraftServer = ReflectionUtil.getClass("net.minecraft.server.MinecraftServer");
 	private static final FieldWrapper<?> getMinecraftServer = ReflectionUtil.getField(playerList, minecraftServer, 0);
 	private static final Class<?> serverConnection = ReflectionUtil.getClass("net.minecraft.server.network.ServerConnection");
 	private static final FieldWrapper<?> getServerConnection = ReflectionUtil.getField(minecraftServer, serverConnection, 0);
@@ -44,6 +45,7 @@ public class ProtocolInjector implements Listener {
 
 	private final Plugin plugin;
 	private final String handlerName;
+	private final Object minecraftServerInstance;
 	private final List<?> connections;
 	private boolean closed;
 
@@ -53,13 +55,18 @@ public class ProtocolInjector implements Listener {
 	private ProtocolInjector(final Plugin plugin) {
 		this.plugin = plugin;
 		this.handlerName = "altauth";
-		this.connections = getConnections.get(getServerConnection.get(getMinecraftServer.get(getPlayerList.get(plugin.getServer()))));
+		this.minecraftServerInstance = getMinecraftServer.get(getPlayerList.get(plugin.getServer()));
+		this.connections = getConnections.get(getServerConnection.get(minecraftServerInstance));
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
 		for (Player player : plugin.getServer().getOnlinePlayers()) {
 			new PacketInterceptor(player);
 		}
+	}
+
+	public Object minecraftServer() {
+		return minecraftServerInstance;
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)

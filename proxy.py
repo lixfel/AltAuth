@@ -22,7 +22,8 @@ bind_to = ('127.0.0.1', 8080)
 allow_mojang_accounts = True
 # Should banned microsoft accounts ("UserBannedException") be allowed to join?
 # Should accounts with disabled multiplayer ("InsufficientPrivilegesException") be allowed to join?
-allowed_microsoft_accounts = ("InsufficientPrivilegesException", "UserBannedException")
+allowed_microsoft_accounts = ()
+#allowed_microsoft_accounts = ("InsufficientPrivilegesException", "UserBannedException")
 
 
 def moj_request(url, data=None):
