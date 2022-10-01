@@ -22,6 +22,7 @@ public class ServerConfig {
     static {
         if(!new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME).exists()) {
             INSTANCE = new ServerConfig();
+            INSTANCE.save();
         } else {
             try {
                 INSTANCE = AltAuth.GSON.fromJson(Files.readString(FabricLoader.getInstance().getConfigDir().resolve(CONFIG_FILE_NAME)), ServerConfig.class);
