@@ -3,9 +3,11 @@
 package de.chaoscaot.altauth.fabric.mixin;
 
 import com.mojang.authlib.yggdrasil.YggdrasilEnvironment;
+import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 import de.chaoscaot.altauth.fabric.AltAuth;
 import de.chaoscaot.altauth.fabric.TrustServerScreen;
 import de.chaoscaot.altauth.fabric.config.ClientConfig;
+import de.lixfel.ReflectionUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -14,7 +16,6 @@ import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
 import net.minecraft.network.packet.s2c.login.LoginHelloS2CPacket;
 import net.minecraft.text.Text;
-import org.joor.Reflect;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,7 +45,7 @@ public class LoginRequestMixin {
                         cs.status = Text.translatable("gui.altauth.connecting", server);
                     }
                     URL url = new URL("https://" + server + "/session/minecraft/join");
-                    Reflect.on(MinecraftClient.getInstance().getSessionService()).set("joinUrl", url);
+                    ReflectionUtil.getField(YggdrasilMinecraftSessionService.class, URL.class, 0).set(MinecraftClient.getInstance().getSessionService(), url);
                 } else {
                     if(MinecraftClient.getInstance().currentScreen instanceof ConnectScreen cs) {
                         ci.cancel();
@@ -59,7 +60,7 @@ public class LoginRequestMixin {
             } else {
                 LOGGER.info("AltauthClient: LoginRequestMixin: Server is running on mojang");
                 URL url = new URL(YggdrasilEnvironment.PROD.getEnvironment().getSessionHost() + "/session/minecraft/join");
-                Reflect.on(MinecraftClient.getInstance().getSessionService()).set("joinUrl", url);
+                ReflectionUtil.getField(YggdrasilMinecraftSessionService.class, URL.class, 0).set(MinecraftClient.getInstance().getSessionService(), url);
             }
         } catch (Exception e) {
             e.printStackTrace();
