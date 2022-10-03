@@ -13,8 +13,8 @@ public class AltAuthBukkit extends JavaPlugin {
 	@Setter
 	private static JavaPlugin instance;
 
-	private SessionServiceInjector serviceInjector;
-	private EncryptionRequestInjector requestInjector;
+	private ServerIdInjector serverIdInjector;
+	private AltAuthSessionService serviceInjector;
 
 	@Override
 	public void onLoad() {
@@ -26,15 +26,13 @@ public class AltAuthBukkit extends JavaPlugin {
 		saveDefaultConfig();
 		String altAuthServer = getConfig().getString("altauth-proxy");
 
-		ProtocolInjector.init();
-		serviceInjector = new SessionServiceInjector(altAuthServer);
-		requestInjector = new EncryptionRequestInjector(altAuthServer);
+		serverIdInjector = new ServerIdInjector(this, altAuthServer);
+		serviceInjector = new AltAuthSessionService(serverIdInjector, altAuthServer);
 	}
 
 	@Override
 	public void onDisable() {
-		requestInjector.remove();
 		serviceInjector.revert();
-		ProtocolInjector.instance.close();
+		serverIdInjector.close();
 	}
 }
