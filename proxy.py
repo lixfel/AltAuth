@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 
+# Set this to True if behind an ip masking proxy (with X-Forwarded-For support) while using prevent-proxy-connections
+behind_proxy = True
+# Address and port to listen to
+bind_to = ('127.0.0.1', 8080)
+# Should mojang accounts be allowed to join with this AltAuth proxy
+allow_mojang_accounts = True
+# Should banned microsoft accounts ("UserBannedException") be allowed to join?
+# Should accounts with disabled multiplayer ("InsufficientPrivilegesException") be allowed to join?
+allowed_microsoft_accounts = ()
+# allowed_microsoft_accounts = ("InsufficientPrivilegesException", "UserBannedException")
+
+
 from traceback import format_exc
 from collections import namedtuple
 from typing import Dict
@@ -12,18 +24,6 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from http import HTTPStatus
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
-
-
-# Set this to True if behind an ip masking proxy (with X-Forwarded-For support) while using prevent-proxy-connections
-behind_proxy = True
-# Address and port to listen to
-bind_to = ('127.0.0.1', 8080)
-# Should mojang accounts be allowed to join with this AltAuth proxy
-allow_mojang_accounts = True
-# Should banned microsoft accounts ("UserBannedException") be allowed to join?
-# Should accounts with disabled multiplayer ("InsufficientPrivilegesException") be allowed to join?
-allowed_microsoft_accounts = ()
-#allowed_microsoft_accounts = ("InsufficientPrivilegesException", "UserBannedException")
 
 
 def moj_request(url, data=None):
@@ -58,6 +58,10 @@ def timeout_cleaner():
         sleep(1)
 
 
+class SilentException(Exception):
+    pass
+
+
 class AltAuthRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
@@ -83,7 +87,7 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
             use_altauth = False
 
             if token["exp"] <= now:  # check token expiration date
-                raise Exception("Expired token")
+                raise SilentException("Expired token")
 
             if token["iss"] == "Yggdrasil-Auth" and allow_mojang_accounts:  # Mojang account
                 if token["spr"] != selected_profile:
@@ -127,7 +131,11 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             if code != 204 and data:
                 self.wfile.write(data)
-        except BaseException as e:
+        except SilentException:
+            self.send_response(HTTPStatus.FORBIDDEN)
+            self.end_headers()
+            self.wfile.write(b'{"error":"ForbiddenOperationException","path":"/session/minecraft/join"}')
+        except BaseException:
             self.log_message("Exception handling request: %s", format_exc())
 
             # The client continues the login process with a 500 response, therefore 403 instead
@@ -183,6 +191,10 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
 
             self.send_response(HTTPStatus.FORBIDDEN)
             self.end_headers()
+
+    def log_request(self, code='-', size='-'):
+        # Don't log every request (may become spammy & may contain IPs from prevent-proxy-connections (GDPR)
+        pass
 
 
 if __name__ == '__main__':
