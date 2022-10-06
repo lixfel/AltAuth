@@ -16,8 +16,8 @@ Bukkit/Spigot/Paper (1.8 - 1.19.2) and BungeeCord/Waterfall mod/plugin. The serv
 specify the domain or ip address of an AltAuth web proxy.
 
 Since https is a requirement and the example proxy `proxy.py` not yet supporting https the proxy has to run behind a
-https proxy currently. Configuration of the proxy can be done in the first lines of the proxy script.
-Banned and multiplayer disabled user support has not been tested yet and is therefore disabled by default.
+https reverse proxy currently. Configuration of the proxy can be done in the first lines of the proxy script.
+Banned and multiplayer disabled user support have not been tested yet and are therefore disabled by default.
 
 ## AltAuth Protocol and Proxy behaviour
 
