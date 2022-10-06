@@ -189,7 +189,8 @@ class AltAuthRequestHandler(BaseHTTPRequestHandler):
         except BaseException as e:
             self.log_message("Exception handling request: %s", format_exc())
 
-            self.send_response(HTTPStatus.FORBIDDEN)
+            # 204 matches failure response for hasJoined
+            self.send_response(HTTPStatus.NO_CONTENT)
             self.end_headers()
 
     def log_request(self, code='-', size='-'):
