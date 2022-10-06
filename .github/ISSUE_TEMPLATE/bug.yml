@@ -31,9 +31,9 @@ body:
       label: "Stacktrace [Optional]"
       description: "If there is a stacktrace, please paste it here."
       placeholder: | 
-        "```"
-        "Paste the stacktrace here. DO NOT REMOVE THE BACKTICKS!"
-        "```"
+        ```
+        Paste the stacktrace here. DO NOT REMOVE THE BACKTICKS!
+        ```
   - type: textarea
     validations:
         required: true
