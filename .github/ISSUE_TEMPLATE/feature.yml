@@ -1,0 +1,45 @@
+name: Feature Request
+description: Request a Feature for the AltAuth Software
+title: "[FEATURE] <title>"
+labels: [enhancement]
+
+body:
+  - type: textarea
+    validations:
+      required: true
+    id: description
+    attributes:
+      label: Description
+      description: Describe the feature you are requesting.
+      placeholder: "I would like to see AltAuth support <feature>."
+  - type: textarea
+    validations:
+      required: true
+    id: reason
+    attributes:
+      label: "Why do you want this feature?"
+      description: "Tell us why you want this feature."
+  - type: textarea
+    validations:
+      required: true
+    id: alternatives
+    attributes:
+      label: "Alternatives"
+      description: "Are there any alternatives you have considered?"
+  - type: textarea
+    id: context
+    attributes:
+      label: "Other"
+      description: "Please provide any other information that may be helpful."
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Terms"
+      description: "Please read and agree to the terms below."
+      options:
+          - label: "I'm using the latest version of AltAuth."
+            required: true
+          - label: "I really need this feature and can't use the alternative."
+            required: true
+          - label: "This issue is not a duplicate."
+            required: true

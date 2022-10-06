@@ -1,0 +1,67 @@
+name: Bug Report
+description: Report a Bug with the AltAuth Software
+title: "[BUG] <title>"
+labels: [bug]
+
+body:
+  - type: dropdown
+    validations:
+      required: true
+    id: platform
+    attributes:
+      label: Platform
+      description: What platform are you using?
+      options:
+        - BungeeCord/Waterfall
+        - Spigot/Paper
+        - Fabric (Server/Client)
+        - Proxy
+        - Other (Self implemented)
+  - type: textarea
+    validations:
+      required: true
+    id: description
+    attributes:
+      label: Description
+      description: Describe the bug you are experiencing.
+      placeholder: "AltAuth is not working on my server."
+  - type: textarea
+    id: stacktrace
+    attributes:
+      label: "Stacktrace [Optional]"
+      description: "If there is a stacktrace, please paste it here."
+      placeholder: | 
+        "```"
+        "Paste the stacktrace here. DO NOT REMOVE THE BACKTICKS!"
+        "```"
+  - type: textarea
+    validations:
+        required: true
+    id: steps
+    attributes:
+        label: Steps to Reproduce
+        description: "What steps did you take to cause this bug?"
+        placeholder: "1. Install AltAuth on my server."
+  - type: textarea
+    validations:
+        required: true
+    id: expected
+    attributes:
+        label: "Expected Behavior"
+        description: "What did you expect to happen?"
+        placeholder: "AltAuth should work on my server."
+  - type: textarea
+    id: context
+    attributes:
+      label: "Other"
+      description: "Please provide any other information that may be helpful."
+  - type: checkboxes
+    id: terms
+    attributes:
+        label: "Terms and Conditions"
+        description: "By submitting this issue, you agree to the following terms and conditions."
+        options:
+            - label: "I'm using the latest version of AltAuth."
+              required: true
+            - label: "This issue is not a duplicate."
+              required: true

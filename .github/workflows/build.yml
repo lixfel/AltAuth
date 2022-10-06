@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build AltAuth and Upload
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.5.1
+        with:
+          java-version: 17
+          check-latest: true
+          cache: 'gradle'
+
+      - name: Build AltAuth
+        run: ./gradlew build
+
+      - name: Upload AltAuth
+        if: ${{github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: AltAuth
+          path: build/libs/AltAuth-*-all.jar
