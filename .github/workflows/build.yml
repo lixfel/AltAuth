@@ -20,6 +20,7 @@ jobs:
           java-version: 17
           check-latest: true
           cache: 'gradle'
+          distribution: 'zulu'
 
       - name: Build AltAuth
         run: ./gradlew build
