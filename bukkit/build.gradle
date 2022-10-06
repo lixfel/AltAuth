@@ -26,6 +26,7 @@ dependencies {
     compileOnly project(":common")
     compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
     compileOnly 'io.netty:netty-all:4.1.68.Final'
+    compileOnly 'com.mojang:authlib:1.5.25'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     testCompileOnly 'org.projectlombok:lombok:1.18.22'

@@ -34,13 +34,12 @@ allprojects {
         mavenCentral()
 
         maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-
-        maven { url = uri('https://steamwar.de/maven') }
 
         maven { url 'https://maven.fabricmc.net/' }
         maven { url "https://maven.shedaniel.me/" }
         maven { url "https://maven.terraformersmc.com/releases/" }
+
+        maven { url 'https://libraries.minecraft.net' }
     }
 
     configurations {
