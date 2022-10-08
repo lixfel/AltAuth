@@ -1,5 +1,7 @@
 # AltAuth
 
+![AltAuth Logo](resources/logo-4x-centered.png "AltAuth Logo")
+
 AltAuth is a solution to allow players with Mojang account, (untested) banned accounts and (untested) Multiplayer
 disabled accounts to join online mode Minecraft servers depending on client and server support.
 This works by redirecting the session server requests to a proxy specified by the server.
@@ -21,4 +23,4 @@ Banned and multiplayer disabled user support have not been tested yet and are th
 
 ## AltAuth Protocol and Proxy behaviour
 
-![Sequence diagram describing protocol and principle](AltAuth.png "Sequence diagram describing protocol and principle")
+![Sequence diagram describing protocol and principle](resources/AltAuth.png "Sequence diagram describing protocol and principle")
